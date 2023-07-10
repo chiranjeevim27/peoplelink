@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<body>
+    <link rel="stylesheet" type="text/css"  href="main.css">
+    <title>Face Detection Web App</title>
+    <h1>Face Detection Web App</h1>
+    <style>
+        html {
+                overflow: hidden;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            width: inherit;
+            height: inherit;
+            margin: 0;
+            padding: 0;
+            background-color: pink;
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+        .face-frame {
+            display: inline-block;
+            margin: 10px;
+            width: 100px;
+            height: 100px;
+            padding: 5px;
+            align-items: center;
+        }
+    </style>
+</head>
+
+
+
+
+
+   
+
+    {% for face_id in range(num_faces) %}
+        <div class="face-frame">
+            {% set face = faces[face_id] %}
+            <img src="{{ url_for('face_image', face_id=face_id, x=face[0], y=face[1], width=face[2], height=face[3]) }}" alt="Face {{ face_id }}" width="{{ face[2] }}" height="{{ face[3] }}">
+        </div>
+    {% endfor %}
+
+    <script>
+        // Refresh the face frames every 1 second
+        setInterval(function() {
+            var faceFrames = document.getElementsByClassName("face-frame");
+            for (var i = 0; i < faceFrames.length; i++) {
+                var faceFrame = faceFrames[i];
+                var img = faceFrame.querySelector("img");
+                img.src = img.src + "?" + new Date().getTime();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
